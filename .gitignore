@@ -1,4 +1,6 @@
 # Logs
+*.jpg
+public/images
 
 .env
 logs
