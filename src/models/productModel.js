@@ -6,7 +6,9 @@ const productSchema = new Schema({
     categoria: String,
     descripcion:String,
     precio: Number,
-    image: String
+    image: String,
+    lastUpdate: String,
+    stock: Boolean
 })
 
 export  const Product = model("product", productSchema);
