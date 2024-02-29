@@ -8,7 +8,7 @@ const productSchema = new Schema({
     precio: Number,
     image: String,
     lastUpdate: String,
-    stock: Boolean
+    nostock: Boolean
 })
 
 export  const Product = model("product", productSchema);

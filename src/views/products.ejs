@@ -26,7 +26,7 @@
           <th scope="col">Modelo</th>
           <th scope="col">Precio</th>
           <th scope="col">id</th>
-          <th scope="col">Disponible</th>
+          <th scope="col">Sin Stock</th>
           <th scope="col">Actualizado </th>
           <th scope="col">Acciones</th>
      
@@ -47,7 +47,7 @@
           <td>$<%= element.precio %></td>
   
           <td  style="font-size: 12px" scope="row"><%= element._id %></td>
-          <td  style="font-size: 12px" scope="row">true</td>
+          <td  style="font-size: 12px" scope="row"><%= element.nostock %></td>
           <td  style="font-size: 12px" scope="row">29-02-24</td>
           <td>
             <button
