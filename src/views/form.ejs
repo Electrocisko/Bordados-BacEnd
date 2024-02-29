@@ -108,18 +108,8 @@
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         let data = new FormData(form);
-
         let checkStock = data.get("onstock")
-        console.log("hay stock?:" + checkStock);
-
-        if (checkStock) {
-          data.append("nostock", true)
-        } else {
-          data.append("nostock", false)
-        }
-
-
-  
+        checkStock ? data.append("nostock", true) : data.append("nostock", false)
 
         fetch(route, {
           method: "POST",
