@@ -75,11 +75,12 @@ export const getProductsCat = async (req, res) => {
 export const deleteProductById = async (req, res) => {
   try {
     const id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(id))
-      throw new Error("Id  no valido");
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Id  no valido");
     let result = await Product.findByIdAndDelete(id);
     // Borro el archivo
-    fs.unlinkSync(`src/public/images/${result.image}`);
+    if (result.image !== "logo-envido.png") {
+      fs.unlinkSync(`src/public/images/${result.image}`);
+    }
     if (result == null) throw new Error("No se encontro producto con ese Id");
     res.status(200).json({
       status: "success",
@@ -94,35 +95,35 @@ export const deleteProductById = async (req, res) => {
   }
 };
 
-export const modifiedProductById = async (req,res) => {
+export const modifiedProductById = async (req, res) => {
   try {
     const id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(id))
-      throw new Error("Id  no valido");
-      let data = req.body;
-      if (req.file) {
-        const oldData = await Product.findById(id);
-        //Borro la imagen anterior
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error("Id  no valido");
+    let data = req.body;
+    if (req.file) {
+      const oldData = await Product.findById(id);
+      //Borro la imagen anterior
+      if (oldData.image !== "logo-envido.png") {
         fs.unlinkSync(`src/public/images/${oldData.image}`);
-        data.image = req.file.filename;
-        const imageSplit = req.file.filename.split(".");
-        const extension = imageSplit[1];
-        if (extension != "png" && extension != "jpg" && extension != "webp") {
-          throw new Error("Archivo adjunto no valido.");
-        };
-        if (req.file.size > 300000) {
-          throw new Error("El archivo no puede superar 300Kb");
-        }
       }
- 
-//Modifica imagen si es que hay
-    let modifiedProduct = await Product.findByIdAndUpdate(id, data)
+      data.image = req.file.filename;
+      const imageSplit = req.file.filename.split(".");
+      const extension = imageSplit[1];
+      if (extension != "png" && extension != "jpg" && extension != "webp") {
+        throw new Error("Archivo adjunto no valido.");
+      }
+      if (req.file.size > 300000) {
+        throw new Error("El archivo no puede superar 300Kb");
+      }
+    }
+
+    //Modifica imagen si es que hay
+    let modifiedProduct = await Product.findByIdAndUpdate(id, data);
 
     res.status(200).json({
       status: "success",
       message: "Producto Modificado ",
       modifiedProduct,
-      
     });
   } catch (error) {
     if (req.file) {
@@ -135,4 +136,4 @@ export const modifiedProductById = async (req,res) => {
       error: error.message,
     });
   }
-}
+};
