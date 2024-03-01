@@ -1,6 +1,7 @@
 import { Product } from "../models/productModel.js";
 import mongoose from "mongoose";
 import fs from "fs";
+import dayjs from "dayjs";
 
 export const getProducts = async (req, res) => {
   try {
@@ -37,6 +38,8 @@ export const createProduct = async (req, res) => {
       throw new Error("Falta datos");
     }
     let product = new Product(newProduct);
+    product.iat = dayjs().format('DD/MM/YYYY, HH:mm');
+
     let data = await product.save();
     res.status(200).json({
       status: "success",
@@ -116,9 +119,11 @@ export const modifiedProductById = async (req, res) => {
         throw new Error("El archivo no puede superar 300Kb");
       }
     }
+    data.exp = dayjs().format('DD/MM/YYYY, HH:mm');
 
     //Modifica imagen si es que hay
     let modifiedProduct = await Product.findByIdAndUpdate(id, data);
+  
 
     res.status(200).json({
       status: "success",

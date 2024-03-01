@@ -57,9 +57,14 @@
             <td  style="font-size: 12px" scope="row">-</td>
           <% } %> 
            
+          <% if (element.exp) { %>
+            <td  style="font-size: 12px" scope="row"><%= element.exp %></td>
+            <%} else { %>
+              <td  style="font-size: 12px" scope="row"><%= element.iat %></td>
+            <% } %>
          
 
-          <td  style="font-size: 12px" scope="row">29-02-24</td>
+         
           <td>
             <button
               onclick="updatedItem('<%= element._id %>')"
